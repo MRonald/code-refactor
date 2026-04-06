@@ -50,4 +50,15 @@ describe("ResultView integration", () => {
       ),
     ).toBeInTheDocument();
   });
+
+  it("renders empty title fixture with safe Untitled fallback", async () => {
+    render(<ResultView data={fixtures.emptyTitle} />);
+
+    expect(
+      screen.getByRole("heading", { name: "Untitled" }),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Only body copy when title missing."),
+    ).toBeInTheDocument();
+  });
 });
