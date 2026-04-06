@@ -1,57 +1,37 @@
 import React from "react";
+import SectionRenderer from "./components/SectionRenderer";
+import type { Section } from "./types/section";
+import { normalizePageData } from "./validation/normalizePageData";
 
 /**
  * Starter view: wired to `data` in mockData—payloads are intentionally inconsistent;
  * many cases unhandled here.
  */
-export default function ResultView({ data }: any) {
-  const sections = Array.isArray(data?.sections) ? data.sections : [];
+type ResultViewProps = {
+  data: unknown;
+};
 
-  const renderListItem = (item: unknown): string => {
-    if (typeof item === "string") {
-      return item;
-    }
+function buildSectionKey(section: Section, index: number): string {
+  if (section.id) {
+    return `${section.id}-${index}`;
+  }
 
-    if (item && typeof item === "object" && "text" in item) {
-      const text = (item as { text?: unknown }).text;
-      return typeof text === "string" ? text : "";
-    }
+  return `${section.type}-${index}`;
+}
 
-    return "";
-  };
+export default function ResultView({ data }: ResultViewProps) {
+  const normalizedData = React.useMemo(() => normalizePageData(data), [data]);
 
   return (
     <div>
-      <h1>{typeof data?.title === "string" ? data.title : "Untitled"}</h1>
-      {sections.map((s: any, i: number) => {
-        if (s.type === "text") {
-          const content =
-            typeof s.content === "string"
-              ? s.content
-              : typeof s.body === "string"
-                ? s.body
-                : "";
-          return <p key={i}>{content}</p>;
-        }
-        if (s.type === "list") {
-          const items = Array.isArray(s.items) ? s.items : [];
-          return (
-            <ul key={i}>
-              {items.map((item: unknown, idx: number) => (
-                <li key={idx}>{renderListItem(item)}</li>
-              ))}
-            </ul>
-          );
-        }
-        if (s.type === "highlight") {
-          return (
-            <strong key={i}>
-              {typeof s.content === "string" ? s.content : ""}
-            </strong>
-          );
-        }
-        return <div key={i}>Unknown section</div>;
-      })}
+      <h1>{normalizedData.title}</h1>
+      {normalizedData.sections.map((section, index) => (
+        <SectionRenderer
+          key={buildSectionKey(section, index)}
+          section={section}
+          index={index}
+        />
+      ))}
     </div>
   );
 }
