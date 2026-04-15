@@ -101,6 +101,22 @@ function normalizeSection(rawSection: unknown): Section {
         content: parseString(section.content),
       };
     }
+    case "progress": {
+      const label = parseString(section.label);
+      const value =
+        typeof section.value === "number" &&
+        section.value >= 0 &&
+        section.value <= 100
+          ? section.value
+          : 0;
+
+      return {
+        type: "progress",
+        id,
+        label,
+        value,
+      };
+    }
     case "callout": {
       const parsedSeverity = severitySchema.safeParse(section.severity);
       const severity: CalloutSeverity = parsedSeverity.success

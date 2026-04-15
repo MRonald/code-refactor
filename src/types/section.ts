@@ -44,11 +44,18 @@ export interface UnknownSection extends BaseSection {
   reason: "missing-type" | "invalid-shape" | "unsupported-type";
 }
 
+export interface ProgressSection extends BaseSection {
+  type: "progress";
+  label: string;
+  value: number;
+}
+
 export type Section =
   | TextSection
   | ListSection
   | HighlightSection
   | CalloutSection
+  | ProgressSection
   | UnknownSection;
 
 export interface PageData {

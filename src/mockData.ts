@@ -32,7 +32,11 @@ export const data = {
       severity: "warning",
       icon: "alert",
     },
-    { type: "callout", content: "This callout omits severity/icon—define sensible defaults or omit UI." },
+    {
+      type: "callout",
+      content:
+        "This callout omits severity/icon—define sensible defaults or omit UI.",
+    },
     // Deliberately provocative string: consider safe rendering / XSS in your assumptions doc (README).
     {
       type: "text",
@@ -40,11 +44,30 @@ export const data = {
         'Customer note contains angle brackets: <script>alert("xss")</script> and "&" entities.',
     },
     { id: "sec-notice", type: "text", content: "Notice with stable id." },
-    { id: "sec-notice", type: "text", content: "Duplicate id—how should lists/keys behave?" },
-    { type: "freetext", payload: "Unknown section type for forward compatibility." },
+    {
+      id: "sec-notice",
+      type: "text",
+      content: "Duplicate id—how should lists/keys behave?",
+    },
+    {
+      type: "freetext",
+      payload: "Unknown section type for forward compatibility.",
+    },
     { type: "list", items: null },
     // Missing `type`: contract gap
     { content: "Section object without type field." },
+    {
+      id: "sec-progress-1",
+      type: "progress",
+      label: "Upload progress",
+      value: 72,
+    },
+    {
+      id: "sec-progress-1",
+      type: "progress",
+      label: "Upload progress",
+      value: 1000,
+    },
   ],
 };
 
